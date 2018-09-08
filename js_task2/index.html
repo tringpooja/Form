@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tabs using JS</title>
+	<style type="text/css">
+	    body{
+	    	margin: 0;
+	    	width: 100vw;
+	    	height: 100vh;
+	    }
+	    h4{
+	    	margin: 20px;
+	    }
+		.tab{
+			overflow: hidden;
+			border: 1px solid;
+		}
+		.tabs{
+			width: 60vw;
+			margin: 20px;
+		}
+		.tabcontent {
+           display: none;
+           padding: 6px 12px;
+           border: 1px solid;
+           border-top: none;
+        }
+        button{
+        	border: none;
+        	background-color: transparent;
+        	border-bottom: 1px solid;
+        	margin: 10px;
+        }
+	</style>
+</head>
+<body>
+ <h4>Javascript tabs</h4>
+ <div class="tabs">
+   <div class="tab">
+   	 <button class="tablink" onclick="display(event, 'About')">About JS tabs</button>
+ 	 <button class="tablink" onclick="display(event, 'Advantages')">Advantages of JS tabs</button>
+ 	 <button class="tablink" onclick="display(event, 'Using')">Using of JS tabs</button>
+   </div>
+   <div id="About" class="tabcontent">
+ 	 <h5>About Javascript tabs</h5>
+ 	 <p>JavaScript tabs partition your Web page content into tabbed sections. Only one section at a time is visible.</p>
+ 	 <p>The code is written in such a way that the page degrades gracefully in browsers that don't support JavaScript or CSS.</p>
+   </div>
+   <div id="Advantages" class="tabcontent">
+ 	 <h5>Advantages of Javascript tabs</h5>
+ 	 <p>JavaScript tabs are great if your Web page contains a large amount of content.</p>
+ 	 <p>They're also good for things like multi-step Web forms.</p>
+   </div>
+   <div id="Using" class="tabcontent">
+ 	 <h5>Using Javascript tabs</h5>
+ 	 <p>Click a tab to view the tab's content. Using tabs couldn't be easier!</p>
+   </div>
+ </div>
+ 
+<script>
+function display(evt, details) {
+    var i, tabcontents, tablinks;
+    tabcontents = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontents.length; i++) {
+        tabcontents[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(details).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+</script>
+</body>
+</html>
