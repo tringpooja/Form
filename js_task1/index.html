@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form Validation</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+		}
+		h1{
+			text-align: center;
+			font-size: 25px;
+		}
+		label{
+			font-size: 13px;
+			text-align: left;
+			margin-left: 15px;
+			width: 20%;
+		}
+		input{
+			border: 1px solid;
+			font-size: 15px;
+			margin: 15px;
+			margin-left: 55px;
+			width: 12vw;
+		}
+		form{
+			width: 50vw;
+			height: 50vh;
+			text-align: center;
+			border: 1px solid;
+			margin: auto;
+			margin-top: 40px;
+		}
+		.button{
+			font-size: 15px;
+			border-radius: 15px;
+			background-color: rgb(0,77,255);
+			color: white;
+			padding: 6px 24px;
+			border: none;
+			margin: 20px;
+		}
+		button{
+			font-size: 15px;
+			border-radius: 15px;
+			background-color: rgb(0,77,255);
+			color: white;
+			padding: 6px 24px;
+			border: none;
+			margin: 10px;
+		}
+		.det{
+			border-bottom: 1px solid lightgrey;
+			margin: 10px;
+		}
+		table,tr,th,tbody{
+			border: 1px solid;
+			border-collapse: collapse;
+			margin: auto;
+		}
+		#ttable{
+			width: 50vw;
+			margin-top: 40px;
+		}
+		
+	</style>
+	<script type="text/javascript">
+		var finalValue = [];
+   		var rindex;
+        var alpha = /^[A-Za-z]+$/;
+  		var mail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,3})$/;
+    	var mphone = /^(\+\d{1,2}[- ]?)?\d{10}$/;
+
+function validate(enteries) {
+    var flag = 0;
+    if (alpha.test(enteries.names.value) == false) {
+        alert("Invalid name");
+        flag++;
+        return false;
+    }
+
+    if (mail.test(enteries.email.value) == false) {
+        alert("Invalid email");
+        flag++;
+        return false;
+    }
+
+    if (mphone.test(enteries.phone.value) == false) {
+        alert("Invalid phone");
+        flag++;
+        return false;
+    }
+
+
+    var dup = false;
+    for (i in finalValue) {
+        if ((enteries.email.value == finalValue[i].Email) || (enteries.phone.value == finalValue[i].Phone)) {
+            dup = true;
+        }
+    }
+
+    if (flag == 0) {
+        {
+            if (!dup) {
+                var json = {
+                    "Name": enteries.names.value,
+                    "Email": enteries.email.value,
+                    "Phone": enteries.phone.value
+                };
+                finalValue.push(json);
+                console.log(finalValue);
+                appendTables(finalValue);
+            } else {
+                alert("duplicate value");
+            }
+            return false;
+        }
+    }
+}
+function appendTables(data) {
+    var tableData = '';
+    for (i in data) {
+        tableData += '<tr>';
+        tableData += '<td>' + data[i].Name + '</td>';
+        tableData += '<td>' + data[i].Email + '</td>';
+        tableData += '<td>' + data[i].Phone + '</td>';
+        tableData += '<td><button dataname="'+data[i].Name+'" datamail="'+data[i].Email+'" dataphone="'+data[i].Phone+'" onclick="editRow(this)">Edit</button><button onclick="deletes(this)">Delete</button></td></tr>';
+        document.getElementById('ttbody').innerHTML = tableData;
+    }
+}
+
+function deletes(detail) {
+    rindex = detail.parentNode.parentNode.rowIndex;
+    document.getElementById("ttable").deleteRow(rindex);
+    delete finalValue.pop(rindex);
+
+}
+
+function editRow(details) {
+  rindex=details.parentNode.parentNode.rowIndex;
+  document.getElementById("save").style.display = "inline";
+  document.getElementById("submit").disabled = true;
+  document.getElementById("submit").style.background = "lightgrey";
+  document.getElementById("name").value = details.getAttribute('dataname');
+  document.getElementById("emails").value = details.getAttribute('datamail');
+  document.getElementById("phones").value = details.getAttribute('dataphone');	
+}
+
+function saved() {
+	
+	 var Table=document.getElementById('ttable');
+	 var flap = 0;
+	 if (alpha.test(myForm.names.value) == false) {
+        flap++;
+    }
+
+    if (mail.test(myForm.email.value) == false) {
+        flap++;
+    }
+
+    if (mphone.test(myForm.phone.value) == false) {
+        flap++;
+    }
+    if(flap == 0){
+     Table.rows[rindex].cells[0].innerHTML = document.getElementById('name').value;
+     Table.rows[rindex].cells[1].innerHTML = document.getElementById('emails').value;
+     Table.rows[rindex].cells[2].innerHTML = document.getElementById('phones').value;
+    }
+    else{
+    	alert("Invalid values");
+    }
+    document.getElementById("save").style.display = "none";
+    document.getElementById("submit").disabled = false;
+    document.getElementById("submit").style.background = "blue";
+ }
+	</script>
+</head>
+<body>
+  <form name="myForm" onsubmit="return validate(this)">
+    <h1>Form</h1>
+  	<div class="det">	
+  	  <label>Name</label>
+  	  <input type="text" name="names" id="name" value=""/>
+  	</div>
+  	<div class="det">
+  	  <label>Email</label>
+  	  <input style="margin-left: 54px;" type="text" name="email" id="emails" value=""/>
+  	</div>
+  	<div class="det">
+  	  <label>Phone</label>
+  	  <input type="text" name="phone" id="phones" value=""/>
+  	</div>
+    <button id="submit" type="submit">Submit</button>
+    <button type="reset">Reset</button>   
+    <button type="button" id="save" style="display: none;" onclick="saved()">Save</button>
+  </form>
+  <table id="ttable">
+      <tr>
+  		<th>Name</th>
+  		<th>Email</th>
+  		<th>Phone</th>
+  		<th>Operation</th>
+  	  </tr>
+  	<tbody id="ttbody">
+  	</tbody>
+  </table>
+</body>
+</html>
+
+
