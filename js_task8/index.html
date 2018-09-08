@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	<title>Change color</title>
+	<style type="text/css">
+		body{
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+			margin: 5px;
+		}
+		#colors {
+			width: 100px;
+			height: 100px;
+			text-align: center;
+			border: 1px solid;
+			margin-left: 18vw;
+		}
+		button {
+			width: 10vw;
+			height: 5vh;
+			border: none;
+			margin: 5px;
+			background-color: moccasin;
+		}
+	</style>
+	<script type="text/javascript">
+		function Change (Color) {
+			var d = document.getElementById("colors");
+			if(Color == "White"){
+				d.style.background = "initial";
+				d.innerHTML = "Color";
+			}
+			else{
+			    d.style.background = Color;
+			    d.innerHTML = Color;
+		    }
+		}
+	</script>
+ </head>
+ <body>
+   <div id="colors">Color</div>
+   <button onclick="Change('Red')">Red</button>
+   <button onclick="Change('Green')">Green</button>
+   <button onclick="Change('Blue')">Blue</button>
+   <button onclick="Change('White')">Clear</button>
+ </body>
+</html>
